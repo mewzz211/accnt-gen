@@ -1,15 +1,23 @@
 const puppeteer = require('puppeteer');
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
 require('dotenv').config(); // Load environment variables from a .env file
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent] });
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent],
+    partials: [Partials.Channel]
+});
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('messageCreate', async message => {
-    if (message.content === '!generateaccount') {
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    const { commandName } = interaction;
+
+    if (commandName === 'generateaccount') {
+        await interaction.deferReply();
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
 
@@ -51,7 +59,7 @@ client.on('messageCreate', async message => {
         console.log(`Password: ${password}`);
 
         // Send the credentials to the Discord channel
-        message.channel.send(`Username: ${username}\nPassword: ${password}`);
+        await interaction.editReply(`Username: ${username}\nPassword: ${password}`);
 
         await browser.close();
     }
