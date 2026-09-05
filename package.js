@@ -1,0 +1,13 @@
+{
+  "name": "discord-email-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that creates an email and signs up for Discord",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.0.0",
+    "puppeteer": "^13.0.0"
+  }
+}
