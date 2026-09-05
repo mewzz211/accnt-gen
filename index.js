@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 const { Client, GatewayIntentBits } = require('discord.js');
+require('dotenv').config(); // Load environment variables from a .env file
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent] });
 
 client.once('ready', () => {
@@ -55,4 +57,4 @@ client.on('messageCreate', async message => {
     }
 });
 
-client.login('MTU0NTY4MzY3NjU5NDE3NjA4MQ.GHuJeB.P7WEcjC2Hw4x8PtO5xJRJH2FZU71CGv9A_sZt8');
+client.login(process.env.DISCORD_BOT_TOKEN);
